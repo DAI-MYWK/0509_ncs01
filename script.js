@@ -68,6 +68,89 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".reveal-center").forEach((el) => io.observe(el));
 
   /**
+   * NCSの強みセクションのアニメーション
+   */
+  const strengthsSection = document.querySelector("#strengths");
+  if (strengthsSection) {
+    // スクロールで表示されたときのアニメーション
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // セクション全体の表示アニメーション
+            entry.target.classList.add("animate-section");
+
+            // 内部要素のアニメーション
+            const elements = entry.target.querySelectorAll(
+              ".p-index_first__head__textarea, .p-index_first__pic, .p-index_first__en"
+            );
+            elements.forEach((el, index) => {
+              setTimeout(() => {
+                el.classList.add("animate-element");
+              }, 300 * index);
+            });
+
+            // 監視を解除
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    io.observe(strengthsSection);
+  }
+
+  /**
+   * サービスセクションのアニメーション
+   */
+  const serviceSections = document.querySelectorAll(".p-index_feature__sec");
+  if (serviceSections.length > 0) {
+    const serviceObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const section = entry.target;
+
+            // 左右から中央に入るアニメーション
+            const isEvenSection =
+              Array.from(serviceSections).indexOf(section) % 2 === 1;
+            section.classList.add(
+              isEvenSection ? "animate-from-right" : "animate-from-left"
+            );
+
+            // 内部要素のアニメーション（遅延付き）
+            const elements = section.querySelectorAll(
+              ".p-index_feature__sec__num, .c-catch01, .textarea, .pic"
+            );
+            elements.forEach((el, index) => {
+              setTimeout(() => {
+                el.classList.add("animate-service-element");
+              }, 200 * index);
+            });
+
+            // カードのアニメーション
+            const cards = section.querySelectorAll(".sub-card");
+            cards.forEach((card, index) => {
+              setTimeout(() => {
+                card.classList.add("animate-card");
+              }, 600 + 150 * index);
+            });
+
+            // 監視を解除
+            serviceObserver.unobserve(section);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    serviceSections.forEach((section) => {
+      serviceObserver.observe(section);
+    });
+  }
+
+  /**
    * FAQアコーディオン機能
    */
   const faqItems = document.querySelectorAll(".faq__item");
@@ -210,4 +293,45 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   window.addEventListener("resize", resizeHandler);
+
+  /**
+   * 既存のアニメーションロジック
+   */
+  // すべてのアニメーション要素に'is-act'クラスを設定
+  const animElements = document.querySelectorAll(".js-anim_elm");
+  animElements.forEach((element) => {
+    element.classList.add("is-act");
+  });
+
+  // スクロールでのアニメーション
+  window.addEventListener("scroll", function () {
+    const elements = document.querySelectorAll(".js-anim_elm:not(.is-act)");
+    elements.forEach((element) => {
+      const elementPosition = element.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+
+      if (elementPosition < windowHeight * 0.9) {
+        element.classList.add("is-act");
+      }
+    });
+  });
+
+  // js-split クラスのテキスト分割アニメーション
+  document.querySelectorAll(".js-split").forEach((element) => {
+    if (!element.classList.contains("initialized")) {
+      const spans = element.querySelectorAll("span");
+      spans.forEach((span, index) => {
+        span.style.transitionDelay = `${index * 0.1}s`;
+        span.style.opacity = "0";
+        span.style.transform = "translateY(20px)";
+
+        setTimeout(() => {
+          span.style.opacity = "1";
+          span.style.transform = "translateY(0)";
+        }, 100 + index * 100);
+      });
+
+      element.classList.add("initialized");
+    }
+  });
 });
