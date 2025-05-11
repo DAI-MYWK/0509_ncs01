@@ -1299,7 +1299,7 @@ ul, ol {
 }
 
 .contact-left h2 {
-  font-size: 1.8rem;
+  font-size: 3rem;
   margin-bottom: 20px;
   position: relative;
 }
@@ -1315,7 +1315,7 @@ ul, ol {
 
 .contact-left p {
   margin-bottom: 20px;
-  font-size: 0.95rem;
+  font-size: 1.6rem;
   line-height: 1.7;
 }
 
@@ -1326,16 +1326,17 @@ ul, ol {
   background: #f6f9fd;
   margin-bottom: 30px;
   line-height: 1.8;
+  font-size: 1.6rem;
 }
 
 .contact-phone {
-  font-size: 0.95rem;
+  font-size: 1.6rem;
   margin-top: 20px;
 }
 
 .contact-phone span {
   display: block;
-  font-size: 1.8rem;
+  font-size: 2.8rem;
   color: var(--color-primary);
   font-weight: bold;
   margin-top: 10px;
